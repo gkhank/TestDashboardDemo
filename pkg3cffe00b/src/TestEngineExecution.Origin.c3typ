@@ -1,0 +1,13 @@
+/**
+ * Source of a {@link TestEngineExecution} row.
+ */
+enum type TestEngineExecution.Origin {
+  /**
+   * Loaded from the TestEngineFramework API by a sync.
+   */
+  API = 'API'
+  /**
+   * Bundled demo data shown before the API is connected.
+   */
+  DEMO = 'DEMO'
+}

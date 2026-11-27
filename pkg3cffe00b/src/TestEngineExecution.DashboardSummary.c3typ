@@ -1,0 +1,64 @@
+/**
+ * Aggregated view of executions returned by {@link TestEngineExecution#dashboardSummary}.
+ */
+type TestEngineExecution.DashboardSummary {
+  /**
+   * Executions matching the filters.
+   */
+  totalRuns: int
+
+  /**
+   * Executions with verdict `Passed`.
+   */
+  passedRuns: int
+
+  /**
+   * Executions with any other verdict.
+   */
+  failedRuns: int
+
+  /**
+   * passedRuns / totalRuns, 0..1.
+   */
+  passRate: double
+
+  /**
+   * Distinct test cases executed.
+   */
+  testCaseCount: int
+
+  /**
+   * Test cases whose most recent run did not pass.
+   */
+  currentlyFailingCount: int
+
+  /**
+   * Average execution duration in seconds over runs with start and end times.
+   */
+  avgDurationSeconds: double
+
+  /**
+   * Run counts per verdict.
+   */
+  byVerdict: [TestEngineExecution.DashboardSummary.VerdictCount]
+
+  /**
+   * Pass/fail per test suite, worst pass rate first.
+   */
+  bySuite: [TestEngineExecution.DashboardSummary.SuiteStat]
+
+  /**
+   * Pass/fail per day, oldest first.
+   */
+  trend: [TestEngineExecution.DashboardSummary.DayStat]
+
+  /**
+   * Test cases with the most failures (top 10).
+   */
+  topFailingTests: [TestEngineExecution.DashboardSummary.FailingTest]
+
+  /**
+   * Most frequent error signatures across failures (top 8).
+   */
+  errorClusters: [TestEngineExecution.DashboardSummary.ErrorCluster]
+}

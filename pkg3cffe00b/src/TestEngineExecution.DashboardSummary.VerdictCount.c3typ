@@ -1,0 +1,14 @@
+/**
+ * Number of runs with one verdict.
+ */
+type TestEngineExecution.DashboardSummary.VerdictCount {
+  /**
+   * The verdict, e.g. `Passed`.
+   */
+  verdict: string
+
+  /**
+   * Runs with this verdict.
+   */
+  runCount: int
+}

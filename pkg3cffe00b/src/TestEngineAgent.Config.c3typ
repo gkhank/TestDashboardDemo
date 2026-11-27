@@ -1,0 +1,10 @@
+/**
+ * Settings for {@link TestEngineAgent}.
+ */
+type TestEngineAgent.Config mixes Config, Singleton {
+
+  /**
+   * Name of the `GenaiCore.Llm.Completion.Client` configuration the agent uses.
+   */
+  llmClientName: string = 'gpt_4o'
+}

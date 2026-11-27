@@ -1,0 +1,45 @@
+/**
+ * Failure profile of one test case.
+ */
+type TestEngineExecution.DashboardSummary.FailingTest {
+  /**
+   * Test case name.
+   */
+  testCaseName: string
+
+  /**
+   * Suite of the test case.
+   */
+  testSuite: string
+
+  /**
+   * Runs that did not pass.
+   */
+  failures: int
+
+  /**
+   * All runs.
+   */
+  runs: int
+
+  /**
+   * True when the verdict flipped between pass and fail at least twice in the period, i.e. the test is likely flaky
+   * rather than consistently broken or newly regressed.
+   */
+  flaky: boolean
+
+  /**
+   * Execution id of the latest failed run, for drill-down.
+   */
+  lastFailedExecutionId: string
+
+  /**
+   * When the latest failed run started.
+   */
+  lastFailedAt: datetime
+
+  /**
+   * Error signature of the latest failed run.
+   */
+  lastErrorSignature: string
+}

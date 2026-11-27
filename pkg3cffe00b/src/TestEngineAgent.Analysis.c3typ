@@ -1,0 +1,65 @@
+/**
+ * Diagnosis of one {@link TestEngineExecution} from {@link TestEngineAgent#analyzeExecution}.
+ */
+type TestEngineAgent.Analysis {
+  /**
+   * The analyzed execution.
+   */
+  executionId: !string
+
+  /**
+   * Failure category inferred from the error text: Timeout, Assertion, Connectivity, Authentication, Test data,
+   * Null reference, Environment/setup, or Passed when the run did not fail.
+   */
+  category: string
+
+  /**
+   * First step whose verdict is not a pass.
+   */
+  failedStepName: string
+
+  /**
+   * Error lines pulled from the failing step and extra logs (up to 5).
+   */
+  keyErrorLines: [string]
+
+  /**
+   * Runs of the same test case considered for history (latest 20).
+   */
+  recentRuns: int
+
+  /**
+   * Passed runs among {@link #recentRuns}.
+   */
+  recentPasses: int
+
+  /**
+   * True when the test case both passed and failed recently.
+   */
+  flaky: boolean
+
+  /**
+   * Other failed executions with the same error signature.
+   */
+  similarFailureCount: int
+
+  /**
+   * Other test cases failing with the same error signature (up to 5).
+   */
+  similarTestCases: [string]
+
+  /**
+   * Explanation and suggested next steps in markdown.
+   */
+  markdown: !string
+
+  /**
+   * True when an LLM wrote {@link #markdown}; false for the rule-based fallback.
+   */
+  usedLlm: boolean
+
+  /**
+   * Why the LLM was not used, when {@link #usedLlm} is false.
+   */
+  llmNotice: string
+}

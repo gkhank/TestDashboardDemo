@@ -1,0 +1,14 @@
+/**
+ * One turn of a conversation with {@link TestEngineAgent}.
+ */
+type TestEngineAgent.Message {
+  /**
+   * `user` or `assistant`.
+   */
+  role: !string
+
+  /**
+   * Text of the turn.
+   */
+  content: !string
+}

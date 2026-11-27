@@ -1,0 +1,29 @@
+/**
+ * Connection state of {@link TestEngineApi}, returned by {@link TestEngineApi#connectionStatus}.
+ */
+type TestEngineApi.ConnectionStatus {
+  /**
+   * True when a base URL has been stored with {@link TestEngineApi#configureConnection}.
+   */
+  configured: boolean
+
+  /**
+   * The stored base URL (not secret).
+   */
+  baseUrl: string
+
+  /**
+   * True when `GET /TestCaseExecution/ExecutionEnvironment` answered successfully.
+   */
+  reachable: boolean
+
+  /**
+   * Execution environment reported by the API server (`SYS` or `ACC`) when reachable.
+   */
+  serverEnvironment: string
+
+  /**
+   * Error or status detail to show the user, e.g. why the API is unreachable.
+   */
+  message: string
+}

@@ -1,0 +1,19 @@
+/**
+ * Answer from {@link TestEngineAgent#ask}.
+ */
+type TestEngineAgent.Reply {
+  /**
+   * Answer in markdown.
+   */
+  answer: !string
+
+  /**
+   * True when an LLM wrote the answer; false for the rule-based fallback.
+   */
+  usedLlm: boolean
+
+  /**
+   * Why the LLM was not used, when {@link #usedLlm} is false.
+   */
+  llmNotice: string
+}

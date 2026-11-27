@@ -1,0 +1,24 @@
+/**
+ * Values available for the dashboard filters, from {@link TestEngineExecution#filterOptions}.
+ */
+type TestEngineExecution.FilterOptions {
+  /**
+   * Distinct test environments, sorted.
+   */
+  environments: [string]
+
+  /**
+   * Distinct test suites, sorted.
+   */
+  testSuites: [string]
+
+  /**
+   * Total executions stored.
+   */
+  totalExecutions: int
+
+  /**
+   * Executions that came from the live API (as opposed to demo data).
+   */
+  apiExecutions: int
+}

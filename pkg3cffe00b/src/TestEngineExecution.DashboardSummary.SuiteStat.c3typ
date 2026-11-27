@@ -1,0 +1,29 @@
+/**
+ * Pass/fail totals for one test suite.
+ */
+type TestEngineExecution.DashboardSummary.SuiteStat {
+  /**
+   * Suite name.
+   */
+  testSuite: string
+
+  /**
+   * Runs in the suite.
+   */
+  total: int
+
+  /**
+   * Passed runs.
+   */
+  passed: int
+
+  /**
+   * Runs that did not pass.
+   */
+  failed: int
+
+  /**
+   * passed / total, 0..1.
+   */
+  passRate: double
+}

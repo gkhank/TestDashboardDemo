@@ -1,0 +1,126 @@
+/**
+ * One execution of a test case in the TestEngineFramework (`TestCaseExecutionResult`), keyed by its executionId.
+ * Rows are pulled from the API by {@link #syncFromApi}; the dashboard and troubleshooting agent read them from here.
+ */
+@db(index=['testEnvironment, startedAt', 'testSuite', 'testCaseName', 'verdict', 'errorSignature'],
+    order='descending(startedAt)')
+entity type TestEngineExecution {
+
+  /**
+   * Environment the test ran in, `SYS` or `ACC`.
+   */
+  testEnvironment: !string
+
+  /**
+   * Test suite the test case belongs to.
+   */
+  testSuite: !string
+
+  /**
+   * Name of the executed test case.
+   */
+  testCaseName: !string
+
+  /**
+   * Linked Jira test case id, when the test case has one.
+   */
+  jiraTestCaseId: string
+
+  /**
+   * Test data reference the execution ran with.
+   */
+  dataReferenceId: string
+
+  /**
+   * Owning team id in the TestEngineFramework, if assigned.
+   */
+  teamId: int
+
+  /**
+   * Id of the test case definition (`TestCaseXml`) in the TestEngineFramework.
+   */
+  testCaseXmlId: int
+
+  /**
+   * When execution started.
+   */
+  startedAt: datetime
+
+  /**
+   * When execution completed.
+   */
+  completedAt: datetime
+
+  /**
+   * Lifecycle state from the API: `Executing`, `Paused`, `Completed` or `Cancelled`.
+   */
+  executionState: string
+
+  /**
+   * User or scheduler that triggered the execution.
+   */
+  executedBy: string
+
+  /**
+   * Final verdict, e.g. `Passed`, `Failed`, `Error`, `Inconclusive`. Anything but `Passed` counts as a failure.
+   */
+  verdict: !string
+
+  /**
+   * Exception text captured when no step results exist (e.g. setup failures).
+   */
+  @db(length='large')
+  extraLogs: string
+
+  /**
+   * Name of the first step whose verdict is not a pass; derived when the row is loaded.
+   */
+  failedStepName: string
+
+  /**
+   * Normalized first error line of the failure (ids, numbers and GUIDs removed) used to group similar failures.
+   */
+  errorSignature: string
+
+  /**
+   * Where the row came from: the live API or the bundled demo data.
+   */
+  origin: string enum TestEngineExecution.Origin
+
+  /**
+   * Step-by-step results of this execution.
+   */
+  steps: [TestEngineExecution.Step](execution)
+
+  /**
+   * Aggregates executions matching the spec into KPIs, verdict counts, per-suite pass rates, a daily trend,
+   * the most failing test cases and the most common error signatures. Called by the dashboard page.
+   */
+  dashboardSummary: function(spec: TestEngineExecution.DashboardSpec): !TestEngineExecution.DashboardSummary js
+
+  /**
+   * Distinct environments and test suites present in the data, for the dashboard filters.
+   */
+  filterOptions: function(): !TestEngineExecution.FilterOptions js
+
+  /**
+   * Pulls execution results from {@link TestEngineApi} page by page and upserts them with their steps.
+   *
+   * @param testEnvironment
+   *          `SYS` or `ACC`.
+   * @param dateFrom
+   *          Earliest execution date (inclusive); null for no lower bound.
+   * @param dateTo
+   *          Latest execution date (inclusive); null for no upper bound.
+   * @param testSuite
+   *          Only this suite; null for all suites.
+   * @return how many executions and steps were loaded.
+   */
+  syncFromApi: function(testEnvironment: !string, dateFrom: datetime, dateTo: datetime,
+                        testSuite: string): !TestEngineExecution.SyncResult js
+
+  /**
+   * Maximum number of API pages read by one {@link #syncFromApi} call.
+   */
+  MAX_SYNC_PAGES: const int = 50
+}

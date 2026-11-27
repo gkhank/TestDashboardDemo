@@ -1,0 +1,37 @@
+/**
+ * Result of one step within a {@link TestEngineExecution} (`TestStepExecutionResult`), keyed by stepExecutionId.
+ */
+@db(index=['execution'], order='ascending(testStepId)')
+entity type TestEngineExecution.Step {
+
+  /**
+   * The execution this step belongs to.
+   */
+  execution: !TestEngineExecution
+
+  /**
+   * Sequential step number within the test case.
+   */
+  testStepId: !int
+
+  /**
+   * Human-readable step name.
+   */
+  testStepName: string
+
+  /**
+   * Step verdict, e.g. `Pass`, `Fail`, `Error`.
+   */
+  verdict: !string
+
+  /**
+   * Logs and messages produced by the step.
+   */
+  @db(length='large')
+  details: string
+
+  /**
+   * When the step ran.
+   */
+  executedAt: datetime
+}

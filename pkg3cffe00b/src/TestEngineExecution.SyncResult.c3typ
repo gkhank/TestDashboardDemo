@@ -1,0 +1,29 @@
+/**
+ * Outcome of {@link TestEngineExecution#syncFromApi}.
+ */
+type TestEngineExecution.SyncResult {
+  /**
+   * Executions upserted.
+   */
+  executionCount: int
+
+  /**
+   * Step results upserted.
+   */
+  stepCount: int
+
+  /**
+   * API pages read.
+   */
+  pageCount: int
+
+  /**
+   * Total matching results the API reported.
+   */
+  apiTotalCount: int
+
+  /**
+   * True when {@link TestEngineExecution#MAX_SYNC_PAGES} stopped the sync before the last page.
+   */
+  truncated: boolean
+}

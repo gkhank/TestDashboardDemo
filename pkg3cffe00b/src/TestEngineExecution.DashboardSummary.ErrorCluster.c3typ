@@ -1,0 +1,19 @@
+/**
+ * Group of failures that share one error signature.
+ */
+type TestEngineExecution.DashboardSummary.ErrorCluster {
+  /**
+   * The shared normalized error line.
+   */
+  errorSignature: string
+
+  /**
+   * Failed runs with this signature.
+   */
+  failures: int
+
+  /**
+   * Distinct test cases affected.
+   */
+  testCaseNames: [string]
+}

@@ -1,0 +1,24 @@
+/**
+ * Filters for {@link TestEngineExecution#dashboardSummary}. Unset fields do not filter.
+ */
+type TestEngineExecution.DashboardSpec {
+  /**
+   * `SYS` or `ACC`.
+   */
+  testEnvironment: string
+
+  /**
+   * Restrict to one test suite.
+   */
+  testSuite: string
+
+  /**
+   * Executions started at or after this time.
+   */
+  dateFrom: datetime
+
+  /**
+   * Executions started before this time.
+   */
+  dateTo: datetime
+}

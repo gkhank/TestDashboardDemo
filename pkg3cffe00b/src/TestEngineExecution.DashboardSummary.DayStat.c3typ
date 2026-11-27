@@ -1,0 +1,24 @@
+/**
+ * Pass/fail totals for one calendar day (UTC).
+ */
+type TestEngineExecution.DashboardSummary.DayStat {
+  /**
+   * Day as `yyyy-MM-dd`.
+   */
+  day: string
+
+  /**
+   * Runs that day.
+   */
+  total: int
+
+  /**
+   * Passed runs that day.
+   */
+  passed: int
+
+  /**
+   * Runs that did not pass that day.
+   */
+  failed: int
+}

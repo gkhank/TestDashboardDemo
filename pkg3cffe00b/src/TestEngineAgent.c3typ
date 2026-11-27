@@ -1,0 +1,32 @@
+/**
+ * Troubleshooting assistant over {@link TestEngineExecution} data. It explains why an execution failed and answers
+ * free-form questions about test health, using the LLM client named in {@link TestEngineAgent.Config} and falling
+ * back to rule-based analysis when no LLM is available.
+ */
+type TestEngineAgent {
+
+  /**
+   * Diagnoses one execution: failure category, failing step, key error lines, run history of the same test case,
+   * similar failures elsewhere, and suggested next steps.
+   *
+   * @param executionId
+   *          Id of the {@link TestEngineExecution} to analyze.
+   * @return the diagnosis, with a markdown explanation.
+   */
+  analyzeExecution: function(executionId: !string): !TestEngineAgent.Analysis py
+
+  /**
+   * Answers a question about the test results matching `spec`, grounded on the dashboard aggregates and the most
+   * recent failures.
+   *
+   * @param question
+   *          The user's question.
+   * @param history
+   *          Earlier turns of the conversation, oldest first.
+   * @param spec
+   *          Filters that scope the data the agent looks at.
+   * @return the answer in markdown.
+   */
+  ask: function(question: !string, history: [TestEngineAgent.Message],
+                spec: TestEngineExecution.DashboardSpec): !TestEngineAgent.Reply py
+}

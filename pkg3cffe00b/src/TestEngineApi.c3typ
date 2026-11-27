@@ -1,0 +1,65 @@
+/**
+ * Outbound REST client for the TestEngineFramework API (v2.4.9). Configure it once with
+ * {@link #configureConnection}; then {@link TestEngineExecution#syncFromApi} uses it to pull execution results.
+ * Query parameter names mirror the external API (snake_case) because the REST engine sends them verbatim.
+ */
+type TestEngineApi mixes REST {
+
+  /**
+   * GET /TestResult — one page of execution results with their step results.
+   * Returns a `TestCaseExecutionResultPagedResult` json: `{items, totalCount, page, pageSize, totalPages}`.
+   */
+  @rest(uri='TestResult', method='GET')
+  searchTestResults: abstract function(test_environment: !string,
+                                       page: int,
+                                       page_size: int,
+                                       date_from: string,
+                                       date_to: string,
+                                       test_suite: string,
+                                       team_id: int): json
+
+  /**
+   * GET /TestResult/{executionId} — a single execution result with its step results.
+   */
+  @rest(uri='TestResult/', method='GET')
+  testResult: abstract function(@rest(partOfURI=true) executionId: !string): json
+
+  /**
+   * GET /TestResult/Statistics — `{totalRuns, totalTestCases, verdicts: [{verdict, runCount, testCaseCount}]}`.
+   */
+  @rest(uri='TestResult/Statistics', method='GET')
+  statistics: abstract function(test_environment: !string,
+                                date_from: string,
+                                date_to: string,
+                                test_suite: string,
+                                team_id: int): json
+
+  /**
+   * GET /TestCase/TestSuites — names of the test suites saved for an environment.
+   */
+  @rest(uri='TestCase/TestSuites', method='GET')
+  testSuites: abstract function(test_environment: string): json
+
+  /**
+   * GET /TestCaseExecution/ExecutionEnvironment — the environment (`SYS` or `ACC`) of the running server.
+   */
+  @rest(uri='TestCaseExecution/ExecutionEnvironment', method='GET')
+  executionEnvironment: abstract function(): json
+
+  /**
+   * Stores the API base URL and the JWT bearer token (as a secret) for this app. Call it from the Settings page
+   * when the server or the token changes; the token is never returned by any method.
+   *
+   * @param baseUrl
+   *          Root URL of the TestEngineFramework API, e.g. `https://testengine.example.com/`.
+   * @param token
+   *          JWT used as `Authorization: Bearer <token>`. When null, the stored token is kept.
+   * @return the connection status after the change.
+   */
+  configureConnection: function(baseUrl: !string, token: string): TestEngineApi.ConnectionStatus js
+
+  /**
+   * Reports whether a base URL is configured and whether the API answers. Never returns the token.
+   */
+  connectionStatus: function(): !TestEngineApi.ConnectionStatus js
+}
